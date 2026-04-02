@@ -1,6 +1,5 @@
 using AIProcess;
 using EvoPayment.IoC;
-using Microsoft.AspNetCore.HttpOverrides;
 using ProsperaServices.Apis;
 using ProsperaServices.Converters;
 using ProsperaServices.Interfaces;
@@ -20,13 +19,6 @@ var builder = WebApplication.CreateBuilder(args);
         .ReadFrom.Services(services)
     );
 
-    builder.Services.Configure<ForwardedHeadersOptions>(options =>
-    {
-        options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
-        options.KnownNetworks.Clear();
-        options.KnownProxies.Clear();
-    });
-
     builder.Services.AddHttpContextAccessor();
     builder.Services.AddEvoPaymentSDK();
     builder.Services.AddOpenApi();
@@ -43,9 +35,9 @@ var builder = WebApplication.CreateBuilder(args);
         var logFactory = applicationServices.GetRequiredService<ILoggerFactory>();
         return new AIServices(
             httpClientFactory.CreateClient(name: "open-router"),
-            aiModel: config["OpenRouter:Model"] ?? "placeholder",
-            embeddingModel: config["OpenRouter:EmbbedingModel"] ?? "placeholder",
-            openRouterKey: config["OpenRouter:ApiKey"] ?? "placeholder",
+            aiModel: config["OpenRouter:Model"]!,
+            embeddingModel: config["OpenRouter:EmbbedingModel"]!,
+            openRouterKey: config["OpenRouter:ApiKey"]!,
             serviceId: "application",
             loggerFactory: logFactory
         );
@@ -89,21 +81,15 @@ var app = builder.Build();
         app.MapOpenApi();
     }
 
-    app.UseForwardedHeaders();
     app.UseCors("AllowedOrigins");
+    // app.UseAntiforgery();
+    // Removed UseHttpsRedirection - Caddy handles TLS termination
     app.UseWebhooks();
     app.MapCustomerV1Apis();
     app.MapAgentsV1Apis();
-    app.MapGet("/health", () => Results.Ok(new { status = "healthy" }));
+    app.MapGet("/health", () => "OK");
 
-    try
-    {
-        app.UseTickerQ();
-    }
-    catch (Exception ex)
-    {
-        app.Logger.LogError(ex, "TickerQ init failed — continuing without job scheduler");
-    }
+    app.UseTickerQ();
 
     using var activityListenerConfig = new ActivityListenerConfiguration().TraceToSharedLogger();
 }
