@@ -12,87 +12,105 @@ using Serilog;
 using SerilogTracing;
 using TickerQ.DependencyInjection;
 
-var builder = WebApplication.CreateBuilder(args);
-{
-    builder.Host.UseSerilog((context, services, config) => config
-        .ReadFrom.Configuration(context.Configuration)
-        .ReadFrom.Services(services)
-    );
+// Configure Serilog early so we can capture startup crashes
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Debug()
+    .WriteTo.Console(new Serilog.Formatting.Json.JsonFormatter())
+    .CreateBootstrapLogger();
 
-    builder.Services.AddHttpContextAccessor();
-    builder.Services.AddEvoPaymentSDK();
-    builder.Services.AddOpenApi();
-    builder.Services.AddPaymentGateways();
-    builder.Services.AddWebhooks();
-    builder.Services.AddApplicationServices();
-    builder.Services.AddSingleton<SupabaseService>();
-    builder.Services.AddSingleton<IEncryptionService, EncryptionService>();
-    builder.Services.AddHybridCache();
-    builder.Services.AddScoped(applicationServices =>
+try
+{
+    Log.Information("Starting up...");
+
+    var builder = WebApplication.CreateBuilder(args);
     {
-        var config = applicationServices.GetRequiredService<IConfiguration>();
-        var httpClientFactory = applicationServices.GetRequiredService<IHttpClientFactory>();
-        var logFactory = applicationServices.GetRequiredService<ILoggerFactory>();
-        return new AIServices(
-            httpClientFactory.CreateClient(name: "open-router"),
-            aiModel: config["OpenRouter:Model"]!,
-            embeddingModel: config["OpenRouter:EmbbedingModel"]!,
-            openRouterKey: config["OpenRouter:ApiKey"]!,
-            serviceId: "application",
-            loggerFactory: logFactory
+        builder.Host.UseSerilog((context, services, config) => config
+            .ReadFrom.Configuration(context.Configuration)
+            .ReadFrom.Services(services)
         );
-    });
 
-    builder.Services.AddCors(options =>
-    {
-        options.AddPolicy(name: "AllowedOrigins",
-            policy =>
-            {
-                policy
-                    .AllowAnyOrigin()
-                    .AllowAnyHeader()
-                    .AllowAnyMethod();
-            });
-    });
-
-    builder.Services.AddScoped<ProcessAI>();
-
-    builder.Services.AddTickerQ(options =>
-    {
-        options.ConfigureScheduler(scheduler =>
+        builder.Services.AddHttpContextAccessor();
+        builder.Services.AddEvoPaymentSDK();
+        builder.Services.AddOpenApi();
+        builder.Services.AddPaymentGateways();
+        builder.Services.AddWebhooks();
+        builder.Services.AddApplicationServices();
+        builder.Services.AddSingleton<SupabaseService>();
+        builder.Services.AddSingleton<IEncryptionService, EncryptionService>();
+        builder.Services.AddHybridCache();
+        builder.Services.AddScoped(applicationServices =>
         {
-            scheduler.MaxConcurrency = 8;
-            scheduler.NodeIdentifier = Environment.MachineName;
+            var config = applicationServices.GetRequiredService<IConfiguration>();
+            var httpClientFactory = applicationServices.GetRequiredService<IHttpClientFactory>();
+            var logFactory = applicationServices.GetRequiredService<ILoggerFactory>();
+            return new AIServices(
+                httpClientFactory.CreateClient(name: "open-router"),
+                aiModel: config["OpenRouter:Model"] ?? "placeholder",
+                embeddingModel: config["OpenRouter:EmbbedingModel"] ?? "placeholder",
+                openRouterKey: config["OpenRouter:ApiKey"] ?? "placeholder",
+                serviceId: "application",
+                loggerFactory: logFactory
+            );
         });
-    });
 
-    builder.Services.ConfigureHttpJsonOptions(options =>
-    {
-        options.SerializerOptions.Converters.Add(new ResultConverterFactory());
-    });
-}
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy(name: "AllowedOrigins",
+                policy =>
+                {
+                    policy
+                        .AllowAnyOrigin()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+        });
 
+        builder.Services.AddScoped<ProcessAI>();
 
-var app = builder.Build();
-{
-    app.UseSerilogRequestLogging();
-    if (app.Environment.IsDevelopment())
-    {
-        app.MapOpenApi();
+        builder.Services.AddTickerQ(options =>
+        {
+            options.ConfigureScheduler(scheduler =>
+            {
+                scheduler.MaxConcurrency = 8;
+                scheduler.NodeIdentifier = Environment.MachineName;
+            });
+        });
+
+        builder.Services.ConfigureHttpJsonOptions(options =>
+        {
+            options.SerializerOptions.Converters.Add(new ResultConverterFactory());
+        });
     }
 
-    app.UseCors("AllowedOrigins");
-    // app.UseAntiforgery();
-    // Removed UseHttpsRedirection - Caddy handles TLS termination
-    app.UseWebhooks();
-    app.MapCustomerV1Apis();
-    app.MapAgentsV1Apis();
-    app.MapGet("/health", () => "OK");
+    Log.Information("DI container built, building app...");
 
-    app.UseTickerQ();
+    var app = builder.Build();
+    {
+        app.UseSerilogRequestLogging();
+        if (app.Environment.IsDevelopment())
+        {
+            app.MapOpenApi();
+        }
 
-    using var activityListenerConfig = new ActivityListenerConfiguration().TraceToSharedLogger();
+        app.UseCors("AllowedOrigins");
+        app.UseWebhooks();
+        app.MapCustomerV1Apis();
+        app.MapAgentsV1Apis();
+        app.MapGet("/health", () => "OK");
+
+        app.UseTickerQ();
+
+        using var activityListenerConfig = new ActivityListenerConfiguration().TraceToSharedLogger();
+    }
+
+    Log.Information("App configured, starting Kestrel...");
+    app.Run();
 }
-
-
-app.Run();
+catch (Exception ex)
+{
+    Log.Fatal(ex, "Application startup failed");
+}
+finally
+{
+    Log.CloseAndFlush();
+}
