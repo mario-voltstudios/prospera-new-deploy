@@ -1,0 +1,61 @@
+name: ExtractIdInformation
+template: |
+  <message role="system">
+      You are an expert in extracting information from pdf documents 
+     
+      #Rules for extraction:
+          1- you should extract the following fields:
+              - Poliza No
+              - Referecia 1
+              - Referencia 2
+              - Codigo Cliente
+              - Fecha de espedicion
+              - Forma de pago
+              - Importe a pagar
+              - Contratante
+              - Assegurado
+              - Especificaciones del Plan
+              - Coberturas
+              - Vigencia desde
+              - Vigencia hasta
+          2 - Rules for extraction of Contratante
+              - Extract the full name of the contratante, this will always be present in the document
+              - Extract the address, which is the next 2 lines after the name of the contratante
+              - Extract the RFC, which is the next line after the address
+          3 - Rules for extraction of Assegurado
+              - Extract the full name of the assegurado, this will always be present in the document
+              - Extract the Código Cliente (this may or may not be the same as the Código Cliente field mentioned above)
+         
+      #Response
+          - Make sure your response is in VALID JSON format
+          - You must only respond with the JSON, and you MUST Respect the data type on the json schema below.
+          - Do not return any additional text or explanation, only the JSON object.
+          - The JSON should follow the structure as below:
+          {{json_structure}}
+  </message>
+  <message role="user">
+    <text>I have this file can you help me analyze it?</text>
+    {% if type_of_file == 'file' %}
+      <binary>{{binary_content}}</binary>
+    {% endif %}
+    {% if type_of_file == 'image' %}
+      <image>{{binary_content}}</image>
+    {% endif %}
+  </message>
+  <message role="assistant">I can see this is a pdf insurance policy from GNP</message>
+  <message role="user">
+    Extract the information according to the rules provided above and crete the json file.
+  </message>
+template_format: liquid
+description: Prompt extracting information from paycheck files.
+input_variables:
+  - name: json_structure
+    description: Json structure that must be followed in the response.
+    is_required: true
+  - name: binary_content
+    description: the data of the files to be analyzed.
+    is_required: true
+  - name: type_of_file
+    description: the type of file being analyzed (file or image).
+    is_required: true
+  

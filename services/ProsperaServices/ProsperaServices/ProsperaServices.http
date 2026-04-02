@@ -1,0 +1,118 @@
+@ProsperaServices_HostAddress = http://localhost:5151
+
+GET {{ProsperaServices_HostAddress}}/weatherforecast/
+Accept: application/json
+###
+
+POST {{ProsperaServices_HostAddress}}/webhook/stripe/
+Accept: application/json
+###
+
+POST {{ProsperaServices_HostAddress}}/webhook/evopayment/
+Accept: application/json
+###
+
+POST {{ProsperaServices_HostAddress}}/api/customer/create
+Accept: application/json
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "email": "john.doe@example.com",
+  "sessionId": "SESSION0002797608433L35409641K6"
+}
+###
+
+POST {{ProsperaServices_HostAddress}}/api/agent/process/inital
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="Talone"; filename="1549071_98152413_2026001.pdf"
+Content-Type: application/pdf
+
+< /Users/rafaelmoreira/Desktop/prospera/test-data/1549071_98152413_2026001.pdf
+--WebAppBoundary
+Content-Disposition: form-data; name="IdBack"; filename="d0edd4a5-e485-4660-bee9-bb5dc0f9ff40.jpeg"
+Content-Type: image/jpeg
+
+< /Users/rafaelmoreira/Desktop/prospera/test-data/d0edd4a5-e485-4660-bee9-bb5dc0f9ff40.jpeg
+--WebAppBoundary
+Content-Disposition: form-data; name="IdFront"; filename="ff5ca40b-0c17-4feb-a7aa-21ea0fa681de.jpeg"
+Content-Type: image/jpeg
+
+< /Users/rafaelmoreira/Desktop/prospera/test-data/ff5ca40b-0c17-4feb-a7aa-21ea0fa681de.jpeg
+--WebAppBoundary--
+
+--WebAppBoundary
+Content-Disposition: form-data; name="InstructionLetter"; filename="image.jpg"
+Content-Type: image/jpeg
+
+< /Users/rafaelmoreira/Desktop/prospera/test-data/image.jpg
+--WebAppBoundary--
+
+###
+
+POST {{ProsperaServices_HostAddress}}/api/agent/process/policy
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="PolicyDocument"; filename="Poliza.pdf"
+Content-Type: application/pdf
+
+< /Users/rafaelmoreira/Desktop/prospera/test-data/Poliza.pdf
+--WebAppBoundary
+
+###
+
+GET {{ProsperaServices_HostAddress}}/api/agent/get-session
+###
+
+POST {{ProsperaServices_HostAddress}}/api/agent/process/id-front
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="ff5ca40b-0c17-4feb-a7aa-21ea0fa681de.jpeg"
+Content-Type: image/jpeg
+
+< /Users/rafaelmoreira/Desktop/prospera/test-data/ff5ca40b-0c17-4feb-a7aa-21ea0fa681de.jpeg
+--WebAppBoundary
+Content-Disposition: form-data; name="sessionToken"
+
+KXtNIZr-Cy_yRR7QZlyzSYA5RWcmY6qeivdVfj5FBd-1IFptERBkRXHElcFSBMtS
+--WebAppBoundary--
+###
+
+POST {{ProsperaServices_HostAddress}}/api/agent/process/id-back
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="d0edd4a5-e485-4660-bee9-bb5dc0f9ff40.jpeg"
+Content-Type: image/jpeg
+
+< /Users/rafaelmoreira/Desktop/prospera/test-data/d0edd4a5-e485-4660-bee9-bb5dc0f9ff40.jpeg
+--WebAppBoundary
+Content-Disposition: form-data; name="sessionToken"
+
+dYDLVUPfkGbWOffWmaesYHA6OSdWwLaAMq-tb40o1-8U8U4q8f9cqH1KNcxH3WML
+--WebAppBoundary--
+###
+
+POST {{ProsperaServices_HostAddress}}/api/agent/process/paycheck
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="1549071_98152413_2026001.pdf"
+Content-Type: application/pdf
+
+< /Users/rafaelmoreira/Desktop/prospera/test-data/1549071_98152413_2026001.pdf
+--WebAppBoundary
+Content-Disposition: form-data; name="sessionToken"
+
+dYDLVUPfkGbWOffWmaesYHA6OSdWwLaAMq-tb40o1-8U8U4q8f9cqH1KNcxH3WML
+--WebAppBoundary--
+###
+
+
+GET {{ProsperaServices_HostAddress}}/api/agent/search/locations?query=hospital ginico 60
+
+###

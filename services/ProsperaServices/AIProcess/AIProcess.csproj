@@ -1,0 +1,46 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <AssemblyName>AIProcess</AssemblyName>
+        <RootNamespace>AIProcess</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.3.9" />
+      <PackageReference Include="Microsoft.Extensions.VectorData.Abstractions" Version="9.7.0" />
+      <PackageReference Include="Microsoft.KernelMemory.AI.OpenAI" Version="0.98.250508.3" />
+      <PackageReference Include="Microsoft.KernelMemory.Core" Version="0.98.250508.3" />
+      <PackageReference Include="Microsoft.SemanticKernel" Version="1.69.0" />
+      <PackageReference Include="Microsoft.SemanticKernel.Connectors.InMemory" Version="1.70.0-preview" />
+      <PackageReference Include="Microsoft.SemanticKernel.Connectors.OpenAI" Version="1.69.0" />
+      <PackageReference Include="Microsoft.SemanticKernel.Connectors.Sqlite" Version="1.51.0-preview" />
+      <PackageReference Include="Microsoft.SemanticKernel.Connectors.SqliteVec" Version="1.70.0-preview" />
+      <PackageReference Include="Microsoft.SemanticKernel.PromptTemplates.Liquid" Version="1.70.0" />
+      <PackageReference Include="Microsoft.SemanticKernel.Yaml" Version="1.70.0" />
+      <PackageReference Include="NJsonSchema" Version="11.5.2" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="PromptTemplate\ExtractTabletInformation.xml" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="PromptTemplates\ExtractInformationPrompt.yml" />
+      <None Remove="PromptTemplates\FixJsonTemplate.yml" />
+      <EmbeddedResource Include="PromptTemplates\FixJsonTemplate.yml" />
+      <None Remove="PromptTemplates\ExtractIdInformationPrompt.yml" />
+      <EmbeddedResource Include="PromptTemplates\ExtractIdInformationPrompt.yml" />
+      <None Remove="PromptTemplates\ExtractIdInformationBackPrompt.yml" />
+      <EmbeddedResource Include="PromptTemplates\ExtractIdInformationBackPrompt.yml" />
+      <None Remove="PromptTemplates\ExtractInformationFromCartaPrompt.yml" />
+      <EmbeddedResource Include="PromptTemplates\ExtractInformationFromCartaPrompt.yml" />
+      <None Remove="PromptTemplates\ExtractPolicyInformationPrompt.yml" />
+      <EmbeddedResource Include="PromptTemplates\ExtractPolicyInformationPrompt.yml" />
+      <None Remove="PromptTemplates\ExtractInformationPaycheck.yml" />
+      <EmbeddedResource Include="PromptTemplates\ExtractInformationPaycheck.yml" />
+    </ItemGroup>
+
+</Project>

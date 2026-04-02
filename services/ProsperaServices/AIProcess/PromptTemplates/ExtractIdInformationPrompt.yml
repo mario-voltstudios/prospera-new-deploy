@@ -1,0 +1,61 @@
+name: ExtractIdInformation
+template: |
+  <message role="system">
+      You are an expert in extracting information from text descriptions id
+      you need to read the file and extract the following information
+      #Rules for extraction:
+          1- You should extract the following fields:
+              - Nombre
+              - Domicilio
+              - Curp
+              - Fecha de Nacimiento
+              - Sexo
+          2 -  Rules for extraction of the Domicilio
+              - The Domicilio might not be completed sometimes and there it's how you can figure out if it is completed or not
+                  - In the document the domicilio is always after the word "DOMICILIO" and before the word "CLAVE"
+                  - The domicilio should always contains 3 "CLAVE" between "DOMICILIO" and "CLAVE", if it does not contain 3 lines it is not completed
+                  - in case of not being completed you should return the value false in the "esta_completado" filed for the domicilio field and but extract whatever information is available following the rules below
+              - The Domicilio needs contais it's direction in separate fields as follows:
+                  - Calle
+                  - Numero Exterior
+                  - Numero Interior
+                  - Colonia
+                  - Ciudad
+                  - Estado
+                  - Codigo Postal
+      #Response
+          - Make sure your response is in VALID JSON format
+          - You must only respond with the JSON, and you MUST Respect the data type on the json schema below.
+          - Do not return any additional text or explanation, only the JSON object.
+          - The name is inverted, you must return it in normal format, in the document the firstname is always at the bottom of the 3 line with name that's between n the words "NOMBRE" and "DOMICILIO" so the order is line 3, line 1, line 2
+          - the Curp is always available in the document, so it's value should never be null
+          - the Domicilio is always available in the document, but it might not be completed, so you should follow the rules for extraction of the Domicilio
+          - The JSON should follow the structure as below:
+          {{json_structure}}
+  </message>
+  <message role="user">
+    <text>I have this file can you help me analyze it?</text>
+    {% if type_of_file == 'file' %}
+      <binary>{{binary_content}}</binary>
+    {% endif %}
+    {% if type_of_file == 'image' %}
+      <image>{{binary_content}}</image>
+    {% endif %}
+  </message>
+  <message role="assistant">I can see this is Mexico Id, what do you want to do with it</message>
+  <message role="user">
+    Extract the information according to the rules provided above and crete the json file.
+  </message>
+template_format: liquid
+description: Prompt extracting information from paycheck files.
+input_variables:
+  - name: json_structure
+    description: Json structure that must be followed in the response.
+    is_required: true
+  - name: binary_content
+    description: the data of the files to be analyzed.
+    is_required: true
+  - name: type_of_file
+    description: the type of file being analyzed (file or image).
+    is_required: true
+  

@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="AIProcessCLI/AIProcessCLI.csproj" />
+  <Project Path="AIProcess\AIProcess.csproj" />
+  <Project Path="EvoPayment.AspNetCore/EvoPayment.AspNetCore.csproj" />
+  <Project Path="EvoPaymentSDK/EvoPaymentSDK.csproj" />
+  <Project Path="ProsperaServices/ProsperaServices.csproj" />
+</Solution>

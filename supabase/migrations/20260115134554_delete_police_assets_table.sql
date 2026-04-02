@@ -1,0 +1,1 @@
+drop table police_assets;
