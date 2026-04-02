@@ -15,7 +15,7 @@ public sealed class ProcessPaymentJob(
     private const int MaxRetries = 3;
     private const int PendingThresholdMinutes = 5;
 
-    [TickerFunction(nameof(ProcessPaymentJob), "*/5 * * * *")]
+    [TickerFunction(nameof(ProcessPaymentJob), "0 */5 * * * *")]
     public async Task Execute(TickerFunctionContext context, CancellationToken cancellationToken)
     {
         context.CronOccurrenceOperations.SkipIfAlreadyRunning();

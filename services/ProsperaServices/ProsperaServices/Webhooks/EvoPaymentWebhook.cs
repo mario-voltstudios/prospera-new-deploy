@@ -9,6 +9,7 @@ using ProsperaServices.Supabase;
 using Serilog;
 using Serilog.Events;
 using SerilogTracing;
+using ILogger = Serilog.ILogger;
 
 namespace ProsperaServices.Webhooks;
 
