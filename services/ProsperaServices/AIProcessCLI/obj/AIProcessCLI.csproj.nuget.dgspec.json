@@ -1,0 +1,224 @@
+{
+  "format": 1,
+  "restore": {
+    "/Users/rafaelmoreira/Projects/Voltstudios/Prospera/prospera-new/services/ProsperaServices/AIProcessCLI/AIProcessCLI.csproj": {}
+  },
+  "projects": {
+    "/Users/rafaelmoreira/Projects/Voltstudios/Prospera/prospera-new/services/ProsperaServices/AIProcess/AIProcess.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/rafaelmoreira/Projects/Voltstudios/Prospera/prospera-new/services/ProsperaServices/AIProcess/AIProcess.csproj",
+        "projectName": "AIProcess",
+        "projectPath": "/Users/rafaelmoreira/Projects/Voltstudios/Prospera/prospera-new/services/ProsperaServices/AIProcess/AIProcess.csproj",
+        "packagesPath": "/Users/rafaelmoreira/.nuget/packages/",
+        "outputPath": "/Users/rafaelmoreira/Projects/Voltstudios/Prospera/prospera-new/services/ProsperaServices/AIProcess/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/rafaelmoreira/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net10.0"
+        ],
+        "sources": {
+          "/usr/local/share/dotnet/library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net10.0": {
+            "targetAlias": "net10.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "all"
+        },
+        "SdkAnalysisLevel": "10.0.100"
+      },
+      "frameworks": {
+        "net10.0": {
+          "targetAlias": "net10.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.StaticFiles": {
+              "target": "Package",
+              "version": "[2.3.9, )"
+            },
+            "Microsoft.Extensions.VectorData.Abstractions": {
+              "target": "Package",
+              "version": "[9.7.0, )"
+            },
+            "Microsoft.KernelMemory.AI.OpenAI": {
+              "target": "Package",
+              "version": "[0.98.250508.3, )"
+            },
+            "Microsoft.KernelMemory.Core": {
+              "target": "Package",
+              "version": "[0.98.250508.3, )"
+            },
+            "Microsoft.SemanticKernel": {
+              "target": "Package",
+              "version": "[1.69.0, )"
+            },
+            "Microsoft.SemanticKernel.Connectors.InMemory": {
+              "target": "Package",
+              "version": "[1.70.0-preview, )"
+            },
+            "Microsoft.SemanticKernel.Connectors.OpenAI": {
+              "target": "Package",
+              "version": "[1.69.0, )"
+            },
+            "Microsoft.SemanticKernel.Connectors.Sqlite": {
+              "target": "Package",
+              "version": "[1.51.0-preview, )"
+            },
+            "Microsoft.SemanticKernel.Connectors.SqliteVec": {
+              "target": "Package",
+              "version": "[1.70.0-preview, )"
+            },
+            "Microsoft.SemanticKernel.PromptTemplates.Liquid": {
+              "target": "Package",
+              "version": "[1.70.0, )"
+            },
+            "Microsoft.SemanticKernel.Yaml": {
+              "target": "Package",
+              "version": "[1.70.0, )"
+            },
+            "NJsonSchema": {
+              "target": "Package",
+              "version": "[11.5.2, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/10.0.101/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/Users/rafaelmoreira/Projects/Voltstudios/Prospera/prospera-new/services/ProsperaServices/AIProcessCLI/AIProcessCLI.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/rafaelmoreira/Projects/Voltstudios/Prospera/prospera-new/services/ProsperaServices/AIProcessCLI/AIProcessCLI.csproj",
+        "projectName": "AIProcessCLI",
+        "projectPath": "/Users/rafaelmoreira/Projects/Voltstudios/Prospera/prospera-new/services/ProsperaServices/AIProcessCLI/AIProcessCLI.csproj",
+        "packagesPath": "/Users/rafaelmoreira/.nuget/packages/",
+        "outputPath": "/Users/rafaelmoreira/Projects/Voltstudios/Prospera/prospera-new/services/ProsperaServices/AIProcessCLI/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/rafaelmoreira/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net10.0"
+        ],
+        "sources": {
+          "/usr/local/share/dotnet/library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net10.0": {
+            "targetAlias": "net10.0",
+            "projectReferences": {
+              "/Users/rafaelmoreira/Projects/Voltstudios/Prospera/prospera-new/services/ProsperaServices/AIProcess/AIProcess.csproj": {
+                "projectPath": "/Users/rafaelmoreira/Projects/Voltstudios/Prospera/prospera-new/services/ProsperaServices/AIProcess/AIProcess.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "all"
+        },
+        "SdkAnalysisLevel": "10.0.100"
+      },
+      "frameworks": {
+        "net10.0": {
+          "targetAlias": "net10.0",
+          "dependencies": {
+            "CsvHelper": {
+              "target": "Package",
+              "version": "[33.1.0, )"
+            },
+            "Microsoft.Extensions.Http.Resilience": {
+              "target": "Package",
+              "version": "[10.2.0, )"
+            },
+            "Serilog": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
+            "Serilog.Extensions.Logging": {
+              "target": "Package",
+              "version": "[10.0.0, )"
+            },
+            "Serilog.Sinks.Console": {
+              "target": "Package",
+              "version": "[6.1.1, )"
+            },
+            "Serilog.Sinks.Spectre": {
+              "target": "Package",
+              "version": "[0.5.0, )"
+            },
+            "Spectre.Console": {
+              "target": "Package",
+              "version": "[0.54.0, )"
+            },
+            "Spectre.Console.Cli.Extensions.DependencyInjection": {
+              "target": "Package",
+              "version": "[0.22.0, )"
+            },
+            "Spectre.Console.Json": {
+              "target": "Package",
+              "version": "[0.54.0, )"
+            },
+            "Spectre.Console.Registrars.Microsoft-Di": {
+              "target": "Package",
+              "version": "[0.6.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/10.0.101/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
