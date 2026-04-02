@@ -9,12 +9,13 @@ namespace ProsperaServices.Modes;
 public class Result<T>
 {
 
-    private T? Data { get; init; }
-    private Error? Error { get; init; }
+    public T? Data { get; init; }
+    public Error? Error { get; init; }
 
     private Result(){}
 
     private bool IsSuccess => Error is null && Data is not null;
+    public bool IsError => Error is not null;
     
     public static implicit operator Result<T>(T data)
     {

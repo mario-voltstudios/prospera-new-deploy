@@ -2,11 +2,13 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using ProsperaServices.Models.Supabase;
+using Supabase;
+using Client = Supabase.Client;
 
 namespace ProsperaServices.Supabase;
 
 /// <summary>
-/// Service for interacting with Supabase REST API (PostgREST).
+/// Service for interacting with Supabase REST API (PostgREST) and Supabase SDK Client.
 ///
 /// Connection config:
 ///   "Supabase:Url"  → https://lszwokdthvgzcjdlwxzp.supabase.co
@@ -22,6 +24,11 @@ public class SupabaseService : IDisposable
     private readonly ILogger<SupabaseService> _logger;
     private readonly string _baseUrl;
     private readonly string _apiKey;
+
+    /// <summary>
+    /// Supabase SDK Client for ORM-style queries (From&lt;T&gt;, Where, Get, Update, etc.)
+    /// </summary>
+    public Client Client { get; }
 
     private static readonly JsonSerializerOptions JsonOpts = new()
     {
@@ -45,6 +52,9 @@ public class SupabaseService : IDisposable
         _httpClient.DefaultRequestHeaders.Authorization =
             new AuthenticationHeaderValue("Bearer", _apiKey);
         _httpClient.DefaultRequestHeaders.Add("apikey", _apiKey);
+
+        // Initialize Supabase SDK Client for ORM-style queries
+        Client = new Client(_baseUrl, _apiKey);
     }
 
     // ─── Solicitudes ────────────────────────────────────────────────
